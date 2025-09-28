@@ -33,6 +33,7 @@ class TextEntry(BaseModel):
     entry_name: str
     encrypted_data: str
     transaction_hash: Optional[str] = None
+    created_at: Optional[str] = None
 
 
 class FileEntry(BaseModel):
@@ -46,6 +47,7 @@ class FileEntry(BaseModel):
     encrypted_cid: str
     ipfs_cid: Optional[str] = None
     transaction_hash: Optional[str] = None
+    created_at: Optional[str] = None
 
 
 class StatsResponse(BaseModel):
@@ -70,7 +72,7 @@ def list_entries(userid: int, type: Optional[Literal["text", "file"]] = Query(de
     if type in (None, "text"):
         t = (
             supabase.table("text_entries")
-            .select("entryid, userid, contractid, entry_name, encrypted_data, transaction_hash")
+            .select("entryid, userid, contractid, entry_name, encrypted_data, transaction_hash, created_at")
             .eq("userid", userid)
             .order("created_at", desc=True)
             .execute()
@@ -79,7 +81,7 @@ def list_entries(userid: int, type: Optional[Literal["text", "file"]] = Query(de
     if type in (None, "file"):
         f = (
             supabase.table("file_entries")
-            .select("entryid, userid, contractid, entry_name, original_filename, file_type, file_size, encrypted_cid, ipfs_cid, transaction_hash")
+            .select("entryid, userid, contractid, entry_name, original_filename, file_type, file_size, encrypted_cid, ipfs_cid, transaction_hash, created_at")
             .eq("userid", userid)
             .order("created_at", desc=True)
             .execute()
