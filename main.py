@@ -3,6 +3,8 @@ from database import supabase
 from fastapi.middleware.cors import CORSMiddleware
 from api.user import router as user_router
 from api.login import router as login_router
+from api.contracts import router as contracts_router
+from api.entries import router as entries_router
 
 app = FastAPI(
     title="FastAPI + Supabase Backend",
@@ -20,6 +22,8 @@ app.add_middleware(
 
 app.include_router(user_router)
 app.include_router(login_router)
+app.include_router(contracts_router)
+app.include_router(entries_router)
 
 
 @app.get("/")
