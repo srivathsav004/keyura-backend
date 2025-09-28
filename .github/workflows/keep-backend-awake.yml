@@ -1,0 +1,25 @@
+name: Keep Render Backend Awake
+
+# Schedule to run automatically
+on:
+  schedule:
+    - cron: '*/10 * * * *'  # every 10 minutes
+  workflow_dispatch:        # optional manual trigger
+
+jobs:
+  ping-backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ping Render backend
+        run: |
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://keyura-backend.onrender.com/health)
+          echo "Pinged backend. Response code: $RESPONSE"
+          
+          # Check if the response is successful (200-299)
+          if [ "$RESPONSE" -ge 200 ] && [ "$RESPONSE" -lt 300 ]; then
+            echo "✅ Backend is healthy and responding"
+          else
+            echo "❌ Backend returned error code: $RESPONSE"
+            exit 1
+          fi

@@ -29,3 +29,8 @@ app.include_router(entries_router)
 @app.get("/")
 def root():
     return {"message": "FastAPI + Supabase backend running 🚀"}
+
+
+@app.get("/health")
+def health_check():
+    return {"status": "healthy", "message": "Backend is running"}
