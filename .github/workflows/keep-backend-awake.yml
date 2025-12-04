@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Ping Render backend
         run: |
-          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://keyura-backend.onrender.com/health)
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://keyura-backend-lq7c.onrender.com/health)
           echo "Pinged backend. Response code: $RESPONSE"
           
           # Check if the response is successful (200-299)
